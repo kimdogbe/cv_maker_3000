@@ -2,6 +2,7 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import Card from './components/Card'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -9,6 +10,31 @@ function App() {
   return (
     <>
       <div>
+        <h1>The CV maker 3000</h1>
+
+        <Card>
+          <h2>Basic info</h2>
+          <form action="">
+            <div>
+              <label htmlFor='firstName'>Enter First Name </label>
+              <input id='firstName' type='text' placeholder='Kofi'/>
+            </div>
+            <div>
+              <label htmlFor='firstName'>Enter Last Name </label>
+              <input id='firstName' type='text' placeholder='Anan'/>
+            </div>
+            <div>
+              <label htmlFor='email'>Enter Email Address </label>
+              <input id='email' type='email' placeholder='Anan'/>
+            </div>
+            <div>
+              <label htmlFor='phoneNumber'>Enter Email Address </label>
+              <input id='phoneNumber' type='tel' placeholder='Anan'/>
+            </div>
+            <button type='submit'>Submit</button>
+          </form>
+        </Card>
+
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
