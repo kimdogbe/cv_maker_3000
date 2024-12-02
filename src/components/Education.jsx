@@ -3,6 +3,7 @@ import { useState } from "react"
 export default function Education() {
   const [education, setEducation] = useState([]);
   const [currentEducation, setCurrentEducation] = useState({schoolName:'', level:'', achievements:[], startDate:'', endDate:''});
+  const [currentAchievement, setCurrentAchievement] = useState('');
 
   function handleSubmit(e){
     e.preventDefault();
@@ -14,6 +15,14 @@ export default function Education() {
     setEducation(education.filter((_, i) => i !== index));
   }
 
+  function handleAddAchievement(e) {
+    e.preventDefault();
+    setCurrentEducation({...currentEducation, achievements: [...currentEducation.achievements, currentAchievement]})
+    setCurrentAchievement('');
+  }
+
+  console.log(currentEducation);
+  
   return <>
     <h2>Education History 🎓</h2>
     {education.map((establishment, index) => 
@@ -42,6 +51,17 @@ export default function Education() {
         onChange={e => setCurrentEducation({...currentEducation, level: e.target.value})}/>
       </div>
       <div>
+        <ul>
+          {currentEducation.achievements.map( (achievement, index) => 
+          <li key={index}>{achievement}</li>)}
+        </ul>
+        <label htmlFor='level'>Achievements </label>
+        <input id='level' type='text' placeholder='eg. GCSE level: 9A*, 2As, 1B'  
+        value={currentAchievement} 
+        onChange={e => setCurrentAchievement(e.target.value)} />
+        <button onClick={handleAddAchievement}>Add</button>
+      </div>
+      <div>
         <label htmlFor='startDate'>Start Date </label>
         <input id='startDate' type='date' 
         value={currentEducation.startDate} 
@@ -60,17 +80,21 @@ export default function Education() {
 
 function EducationItem({ schoolName, level, achievements=[], startDate, endDate}) {
   return <>
-
     <div className="education-heading">
       <h3>{schoolName} ({level})</h3>
       <p>{startDate} - {endDate}</p>
     </div>
 
-    <h3>Achievements</h3>
-    {achievements.length > 0 ? <ul>
-      {achievements.map((achievement, index) => {
-        <li key={index}>{achievement}</li>
-      })}
-    </ul> : null }
+    {
+      achievements.length > 0 ? 
+      <>
+      <h3>Achievements</h3>
+      <ul>
+        {achievements.map((achievement, index) => 
+          <li key={index}>{achievement}</li>
+        )}
+      </ul>
+      </> : null
+    }
   </>
 }

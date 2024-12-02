@@ -39,6 +39,10 @@
   border-radius: 8px;
 }
 
+li {
+  text-align: left;
+}
+
 .education-heading {
   display: flex;
   justify-content: space-between;
