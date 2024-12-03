@@ -1,17 +1,7 @@
 import { useState } from "react"
 
-let jobDict = [
-  {
-    name: "UN", 
-    title: "Secretary of State",
-    jobRoles: ["Meeting UN delegates", "Keeping peace in the world"],
-    startDate: "21/06/2012",
-    endDate: "31/08/2022"
-  },
-]
-
 export default function Work() {
-  const [jobs, setJobs] = useState(jobDict);
+  const [jobs, setJobs] = useState([]);
 
   const [companyName, setCompanyName] = useState('');
   const [title, setTitle] = useState('');
@@ -19,7 +9,17 @@ export default function Work() {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
-  // TODO: add separate handler for adding a role to array
+  const [currentRole, setCurrentRole] = useState('');
+
+  function handleAddRole(e) {
+    e.preventDefault();
+    setRoles([...roles, currentRole]);
+    setCurrentRole('');
+  }
+
+  function handleRemove(index) {
+    setJobs(jobs.filter((_, i) => i !== index));
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -34,20 +34,28 @@ export default function Work() {
     console.log(nextJob);
     
     setJobs([...jobs, nextJob]);
-    console.log(jobs);
+
+    setCompanyName('');
+    setTitle('');
+    setRoles([]);
+    setStartDate('');
+    setEndDate('');
   }
 
   return <>
     <h2>Employment History 👨🏾‍💻</h2>
-    {jobs.map((job, index) => {
-      return <div key={index}>
-          {job.title} @ {job.name}
-          <br/>
-          From: {job.startDate} To {job.endDate}
-          <br/>
-          Roles: {job.jobRoles.join(', ')}
-        </div>
-    })}
+    {jobs.map((job, index) => 
+      <div key={index}>
+        <JobItem key={index}
+          title={job.title}
+          companyName={job.name}
+          roles={job.jobRoles}
+          startDate={job.startDate}
+          endDate={job.endDate}
+        />
+        <button onClick={() => handleRemove(index)}>Remove</button>
+      </div>
+    )}
     <hr/>
     <form action="" onSubmit={handleSubmit}>
       <div>
@@ -59,8 +67,15 @@ export default function Work() {
         <input id='jobTitle' type='text' placeholder='eg. Undersecretary, HR manager' value={title} onChange={e => setTitle(e.target.value)}/>
       </div>
       <div>
+        <ul>
+          {roles.map( (role, index) => 
+          <li key={index}>{role}</li>)}
+        </ul>
         <label htmlFor='jobRoles'>Roles and Responsibilities</label>
-        <input id='jobRoles' type='text' placeholder='eg. Meeting UN delegates, politics stuff' value={roles} onChange={e => setRoles(e.target.value)}/>
+        <input id='jobRoles' type='text' placeholder='eg. Meeting UN delegates, politics stuff' 
+        value={currentRole} 
+        onChange={e => setCurrentRole(e.target.value)}/>
+         <button onClick={handleAddRole}>Add role</button>
       </div>
       <div>
         <label htmlFor='startDate'>Start Date</label>
@@ -72,5 +87,26 @@ export default function Work() {
       </div>
       <button type='submit'>Add</button>
     </form>
+  </>
+}
+
+function JobItem({title, companyName, roles, startDate, endDate}) {
+  return <>
+    <div className="item-heading">
+      <h3>{title} ({companyName})</h3>
+      <p>{startDate} - {endDate}</p>
+    </div>
+
+    {
+      roles.length > 0 ? 
+      <>
+      <h3>Roles and Responsibilities</h3>
+      <ul>
+        {roles.map((role, index) => 
+          <li key={index}>{role}</li>
+        )}
+      </ul>
+      </> : null
+    }
   </>
 }

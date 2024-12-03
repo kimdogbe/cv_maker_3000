@@ -59,7 +59,7 @@ export default function Education() {
         <input id='level' type='text' placeholder='eg. GCSE level: 9A*, 2As, 1B'  
         value={currentAchievement} 
         onChange={e => setCurrentAchievement(e.target.value)} />
-        <button onClick={handleAddAchievement}>Add</button>
+        <button onClick={handleAddAchievement}>Add achievement</button>
       </div>
       <div>
         <label htmlFor='startDate'>Start Date </label>
@@ -80,7 +80,7 @@ export default function Education() {
 
 function EducationItem({ schoolName, level, achievements=[], startDate, endDate}) {
   return <>
-    <div className="education-heading">
+    <div className="item-heading">
       <h3>{schoolName} ({level})</h3>
       <p>{startDate} - {endDate}</p>
     </div>

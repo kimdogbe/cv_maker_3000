@@ -43,7 +43,7 @@ li {
   text-align: left;
 }
 
-.education-heading {
+.item-heading {
   display: flex;
   justify-content: space-between;
   align-items: center;
