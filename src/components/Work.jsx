@@ -10,6 +10,7 @@ export default function Work() {
   const [endDate, setEndDate] = useState('');
 
   const [currentRole, setCurrentRole] = useState('');
+  const [showForm, setShowForm] = useState(false);
 
   function handleAddRole(e) {
     e.preventDefault();
@@ -40,6 +41,13 @@ export default function Work() {
     setRoles([]);
     setStartDate('');
     setEndDate('');
+
+    setCurrentRole('');
+    setShowForm(false);
+  }
+
+  function handleShowForm() {
+    setShowForm(!showForm);
   }
 
   return <>
@@ -54,39 +62,43 @@ export default function Work() {
           endDate={job.endDate}
         />
         <button onClick={() => handleRemove(index)}>Remove</button>
+        <hr/>
       </div>
     )}
-    <hr/>
-    <form action="" onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor='companyName'>Enter Company/Employer Name</label>
-        <input id='companyName' type='text' placeholder='eg. UNICEF, Grays Farm' value={companyName} onChange={e => setCompanyName(e.target.value)} />
-      </div>
-      <div>
-        <label htmlFor='jobTitle'>Job Title</label>
-        <input id='jobTitle' type='text' placeholder='eg. Undersecretary, HR manager' value={title} onChange={e => setTitle(e.target.value)}/>
-      </div>
-      <div>
-        <ul>
-          {roles.map( (role, index) => 
-          <li key={index}>{role}</li>)}
-        </ul>
-        <label htmlFor='jobRoles'>Roles and Responsibilities</label>
-        <input id='jobRoles' type='text' placeholder='eg. Meeting UN delegates, politics stuff' 
-        value={currentRole} 
-        onChange={e => setCurrentRole(e.target.value)}/>
-         <button onClick={handleAddRole}>Add role</button>
-      </div>
-      <div>
-        <label htmlFor='startDate'>Start Date</label>
-        <input id='startDate' type='date' value={startDate} onChange={e => setStartDate(e.target.value)}/>
-      </div>
-      <div>
-        <label htmlFor='endDate'>End Date</label>
-        <input id='endDate' type='date' max={Date.now()} value={endDate} onChange={e => setEndDate(e.target.value)}/>
-      </div>
-      <button type='submit'>Add</button>
-    </form>
+    {
+      !showForm ? <button onClick={handleShowForm}>Add new</button> 
+      : 
+      <form action="" onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor='companyName'>Enter Company/Employer Name</label>
+          <input id='companyName' type='text' placeholder='eg. UNICEF, Grays Farm' value={companyName} onChange={e => setCompanyName(e.target.value)} />
+        </div>
+        <div>
+          <label htmlFor='jobTitle'>Job Title</label>
+          <input id='jobTitle' type='text' placeholder='eg. Undersecretary, HR manager' value={title} onChange={e => setTitle(e.target.value)}/>
+        </div>
+        <div>
+          <ul>
+            {roles.map( (role, index) => 
+            <li key={index}>{role}</li>)}
+          </ul>
+          <label htmlFor='jobRoles'>Roles and Responsibilities</label>
+          <input id='jobRoles' type='text' placeholder='eg. Meeting UN delegates, politics stuff' 
+          value={currentRole} 
+          onChange={e => setCurrentRole(e.target.value)}/>
+          <button onClick={handleAddRole}>Add role</button>
+        </div>
+        <div>
+          <label htmlFor='startDate'>Start Date</label>
+          <input id='startDate' type='date' value={startDate} onChange={e => setStartDate(e.target.value)}/>
+        </div>
+        <div>
+          <label htmlFor='endDate'>End Date</label>
+          <input id='endDate' type='date' max={Date.now()} value={endDate} onChange={e => setEndDate(e.target.value)}/>
+        </div>
+        <button type='submit'>Add</button>
+      </form>
+    }
   </>
 }
 

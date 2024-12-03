@@ -4,11 +4,13 @@ export default function Education() {
   const [education, setEducation] = useState([]);
   const [currentEducation, setCurrentEducation] = useState({schoolName:'', level:'', achievements:[], startDate:'', endDate:''});
   const [currentAchievement, setCurrentAchievement] = useState('');
+  const [showForm, setShowForm] = useState(false);
 
   function handleSubmit(e){
     e.preventDefault();
     setEducation([...education, currentEducation]);
-    setCurrentEducation({schoolName:'', level:'', achievements:[], startDate:'', endDate:''})
+    setCurrentEducation({schoolName:'', level:'', achievements:[], startDate:'', endDate:''});
+    setShowForm(false);
   }
 
   function handleRemove(index) {
@@ -19,6 +21,10 @@ export default function Education() {
     e.preventDefault();
     setCurrentEducation({...currentEducation, achievements: [...currentEducation.achievements, currentAchievement]})
     setCurrentAchievement('');
+  }
+
+  function handleShowForm() {
+    setShowForm(true);
   }
 
   console.log(currentEducation);
@@ -35,46 +41,50 @@ export default function Education() {
           endDate={establishment.endDate}
         />
         <button onClick={() => handleRemove(index)}>Remove</button>
+        <hr/>
       </div>
     )}
-    <form action="" onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor='schoolName'> School Name </label>
-        <input id='schoolName' type='text' placeholder='eg. Ghana International School' 
-        value={currentEducation.schoolName} 
-        onChange={e => setCurrentEducation({...currentEducation, schoolName: e.target.value})}/>
-      </div>
-      <div>
-        <label htmlFor='level'>Education Level </label>
-        <input id='level' type='text' placeholder='eg. Primary, Secondary, Masters'  
-        value={currentEducation.level} 
-        onChange={e => setCurrentEducation({...currentEducation, level: e.target.value})}/>
-      </div>
-      <div>
-        <ul>
-          {currentEducation.achievements.map( (achievement, index) => 
-          <li key={index}>{achievement}</li>)}
-        </ul>
-        <label htmlFor='level'>Achievements </label>
-        <input id='level' type='text' placeholder='eg. GCSE level: 9A*, 2As, 1B'  
-        value={currentAchievement} 
-        onChange={e => setCurrentAchievement(e.target.value)} />
-        <button onClick={handleAddAchievement}>Add achievement</button>
-      </div>
-      <div>
-        <label htmlFor='startDate'>Start Date </label>
-        <input id='startDate' type='date' 
-        value={currentEducation.startDate} 
-        onChange={e => setCurrentEducation({...currentEducation, startDate: e.target.value})} />
-      </div>
-      <div>
-        <label htmlFor='endDate'>End Date </label>
-        <input id='endDate' type='date' max={Date.now()} 
-        value={currentEducation.endDate} 
-        onChange={e => setCurrentEducation({...currentEducation, endDate: e.target.value})} />
-      </div>
-      <button type='submit'>Add</button>
-    </form>
+    { !showForm ? <button onClick={handleShowForm}>Add new</button> 
+    :
+      <form action="" onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor='schoolName'> School Name </label>
+          <input id='schoolName' type='text' placeholder='eg. Ghana International School' 
+          value={currentEducation.schoolName} 
+          onChange={e => setCurrentEducation({...currentEducation, schoolName: e.target.value})}/>
+        </div>
+        <div>
+          <label htmlFor='level'>Education Level </label>
+          <input id='level' type='text' placeholder='eg. Primary, Secondary, Masters'  
+          value={currentEducation.level} 
+          onChange={e => setCurrentEducation({...currentEducation, level: e.target.value})}/>
+        </div>
+        <div>
+          <ul>
+            {currentEducation.achievements.map( (achievement, index) => 
+            <li key={index}>{achievement}</li>)}
+          </ul>
+          <label htmlFor='level'>Achievements </label>
+          <input id='level' type='text' placeholder='eg. GCSE level: 9A*, 2As, 1B'  
+          value={currentAchievement} 
+          onChange={e => setCurrentAchievement(e.target.value)} />
+          <button onClick={handleAddAchievement}>Add achievement</button>
+        </div>
+        <div>
+          <label htmlFor='startDate'>Start Date </label>
+          <input id='startDate' type='date' 
+          value={currentEducation.startDate} 
+          onChange={e => setCurrentEducation({...currentEducation, startDate: e.target.value})} />
+        </div>
+        <div>
+          <label htmlFor='endDate'>End Date </label>
+          <input id='endDate' type='date' max={Date.now()} 
+          value={currentEducation.endDate} 
+          onChange={e => setCurrentEducation({...currentEducation, endDate: e.target.value})} />
+        </div>
+        <button type='submit'>Add</button>
+      </form>
+    }
   </>
 }
 
